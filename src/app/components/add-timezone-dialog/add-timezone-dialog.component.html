@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Select a Time Zone</h2>
+
+<mat-dialog-content>
+  <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-label>Time Zone</mat-label>
+    <mat-select [(value)]="selectedTimezone">
+      <mat-option *ngFor="let tz of timezones" [value]="tz">{{ tz }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onAdd()" [disabled]="!selectedTimezone">Add</button>
+</mat-dialog-actions>

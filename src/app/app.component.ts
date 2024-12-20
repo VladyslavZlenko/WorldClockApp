@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component} from '@angular/core';
+import {WorldClockTableComponent} from './components/world-clock-table/world-clock-table.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  imports: [WorldClockTableComponent],
+  template: `<app-world-clock-table></app-world-clock-table>`
 })
 export class AppComponent {
   title = 'WorldClockApp';
