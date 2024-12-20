@@ -1,0 +1,58 @@
+<div class="world-clock-table">
+  <div class="control-panel">
+    <mat-button-toggle-group
+      name="intervalGroup"
+      [(ngModel)]="selectedUpdateTimeInterval"
+      (change)="onIntervalChange()"
+      appearance="standard">
+      <mat-button-toggle *ngFor="let option of updateTimeIntervals" [value]="option.value">
+        {{ option.label }}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <button mat-flat-button color="primary" (click)="openAddDialog()" style="margin-left:20px;">
+      Add
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <ng-container matColumnDef="timezone">
+      <mat-header-cell *matHeaderCellDef>Time Zone Name</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.timezone }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="abbrevOffset">
+      <mat-header-cell *matHeaderCellDef>Abbr & Offset</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.abbreviation }} (UTC{{ element.utc_offset }})
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="localTime">
+      <mat-header-cell *matHeaderCellDef>Local Time</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{this.utcTime | date:'HH:mm:ss':element.utc_offset  }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="localDate">
+      <mat-header-cell *matHeaderCellDef>Local Date</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ this.utcTime | date:'dd-MM-YYYY':element.utc_offset  }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dstInfo">
+      <mat-header-cell *matHeaderCellDef>DST Info</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let element">
+        <div *ngIf="element.dst">DST Active</div>
+        <div *ngIf="element.dst_from && element.dst_until">{{ element.dst_from | date:'dd-MM-YYYY' }} -> {{ element.dst_until | date:'dd-MM-YYYY'}}</div>
+        <div *ngIf="!element.dst && !element.dst_from && !element.dst_until">No DST Currently</div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </table>
+
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[10,20,50]"></mat-paginator>
+</div>
